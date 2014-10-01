@@ -1,20 +1,15 @@
 webpackConfig = require './webpack.config'
 gulp = require 'gulp'
 gutil = require 'gulp-util'
-jest = require 'gulp-jest'
+jest = require 'jest-cli'
 webpack = require 'gulp-webpack'
 coffeelint = require 'gulp-coffeelint'
 transform = require 'gulp-coffee-react-transform'
 
 gulp.task 'default', ['jest', 'webpack', 'watch-jest', 'watch-webpack']
 
-gulp.task 'jest', ->
-  gulp.src('./__tests__/').pipe jest
-    scriptPreprocessor: './../preprocessor.js'
-    unmockedModulePathPatterns: [
-      "./node_modules/react"
-    ]
-    testFileExtensions: ["coffee"]
+gulp.task 'jest', (cb) ->
+  jest.runCLI null, __dirname, -> cb()
 
 gulp.task 'watch-jest', ->
   gulp.watch ['app/**', '__tests__/**'], ['jest']
